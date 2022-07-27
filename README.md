@@ -25,10 +25,10 @@ Usage example:
 
 ```
 export NETLIFY_TOKEN=************
-dagger do dev deploy
+dagger do deploy
 ```
 
-For available deployment flags, run `dagger do dev deploy --help`.
+For available deployment flags, run `dagger do deploy --help`.
 
 ### `dagger do test`
 
