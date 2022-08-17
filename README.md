@@ -14,7 +14,7 @@ This project can be build, tested and deployed with [Dagger](https://dagger.io).
 
 ### `dagger project update` 
 
-First you will need to install dagger plan package dependencies.
+First you will need to update dagger plan package dependencies.
 
 ### `dagger do build`
 
