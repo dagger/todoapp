@@ -12,6 +12,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This project can be build, tested and deployed with [Dagger](https://dagger.io).
 
+### `dagger project update` 
+
+First you will need to update dagger plan package dependencies.
+
 ### `dagger do build`
 
 Build a development version of the app, and write it to the `build` folder.
