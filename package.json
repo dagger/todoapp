@@ -12,9 +12,12 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
   },
+  "devDependencies": {
+	"@dagger.io/dagger": "git+ssh://git@github.com:sipsma/cloak.git#nodejs-sdk"
+  },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CLOAK_CONFIG=./workflows/build/cloak.yaml node workflows/build/index.mjs",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
