@@ -1,0 +1,12 @@
+sdk: typescript
+dependencies:
+  # Erik's modified yarn extension
+  - git:
+      remote: git@github.com:sipsma/cloak.git
+      ref: workflow-clean
+      path: examples/yarn/cloak.yaml
+  # Netlify extension example from main cloak repo
+  - git:
+      remote: git@github.com:dagger/cloak.git
+      ref: main
+      path: examples/netlify/go/cloak.yaml
