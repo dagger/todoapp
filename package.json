@@ -13,11 +13,12 @@
     "react-scripts": "3.4.1"
   },
   "devDependencies": {
-	"@dagger.io/dagger": "git+ssh://git@github.com:sipsma/cloak.git#nodejs-sdk"
+    "@dagger.io/dagger": "git+ssh://git@github.com:sipsma/cloak.git#nodejs-sdk"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "CLOAK_CONFIG=./workflows/build-easy/cloak.yaml node workflows/build-easy/index.mjs",
+    "deploy": "CLOAK_CONFIG=./workflows/deploy/cloak.yaml go run workflows/deploy/main.go",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
