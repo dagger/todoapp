@@ -10,10 +10,10 @@ dependencies:
   # Erik's modified yarn extension
   - git:
       remote: git@github.com:sipsma/cloak.git
-      ref: workflow-test
+      ref: workflow-clean
       path: examples/yarn/cloak.yaml
   # Erik's modified netlify extension
   - git:
       remote: git@github.com:sipsma/cloak.git
-      ref: workflow-test
+      ref: workflow-clean
       path: examples/netlify/go/cloak.yaml
