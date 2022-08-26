@@ -17,10 +17,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "CLOAK_CONFIG=./workflows/build-easy/cloak.yaml node workflows/build-easy/index.mjs",
-    "deploy": "CLOAK_CONFIG=./workflows/deploy/cloak.yaml go run workflows/deploy/main.go",
+    "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-2": "node workflows/deploy-2/index.mjs",
+    "deploy-3": "go run workflows/deploy-3/main.go"
   },
   "eslintConfig": {
     "extends": "react-app"

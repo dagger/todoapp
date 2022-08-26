@@ -4,14 +4,12 @@ go 1.19
 
 replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20220414164044-61404de7df1a+incompatible
 
-replace github.com/dagger/cloak => github.com/sipsma/cloak v0.0.0-20220825051444-07ed249a8630
+replace github.com/dagger/cloak => github.com/sipsma/cloak v0.0.0-20220826215227-c8f764daa800
+
+require github.com/dagger/cloak v0.0.0-20220826183549-d44b8252041d
 
 require (
-	github.com/Khan/genqlient v0.5.0
-	github.com/dagger/cloak v0.0.0-00010101000000-000000000000
-)
-
-require (
+	github.com/Khan/genqlient v0.5.0 // indirect
 	github.com/Microsoft/go-winio v0.5.2 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/bhoriuchi/graphql-go-tools v1.0.0 // indirect
@@ -49,7 +47,7 @@ require (
 	github.com/tonistiigi/fsutil v0.0.0-20220115021204-b19f7f9cb274 // indirect
 	github.com/tonistiigi/units v0.0.0-20180711220420-6950e57a87ea // indirect
 	github.com/tonistiigi/vt100 v0.0.0-20210615222946-8066bb97264f // indirect
-	github.com/vektah/gqlparser/v2 v2.4.8 // indirect
+	github.com/vektah/gqlparser/v2 v2.5.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.34.0 // indirect
 	go.opentelemetry.io/otel v1.9.0 // indirect
 	go.opentelemetry.io/otel/exporters/jaeger v1.9.0 // indirect

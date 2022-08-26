@@ -61,32 +61,50 @@
 	}
 	
 
-	"Extension representation"
-	type Extension {
-		"name of the extension"
+	"Project representation"
+	type Project {
+		"name of the project"
 		name: String!
 
-		"schema of the extension"
+		"merged schema of the project's sources (if any)"
 		schema: String
 
-		"operations for this extension"
+		"merged operations of the project's sources (if any)"
 		operations: String
 
-		"dependencies for this extension"
-		dependencies: [Extension!]
+		"sources for this project"
+		sources: [ProjectSource!]
 
-		"install the extension, stitching its schema into the API"
+		"dependencies for this project"
+		dependencies: [Project!]
+
+		"install the project, stitching its schema into the API"
 		install: Boolean!
 	}
 
+	"Project source representation"
+	type ProjectSource {
+		"path to the source in the project filesystem"
+		path: String!
+
+		"schema associated with the source (if any)"
+		schema: String
+
+		"operations associated with the source (if any)"
+		operations: String
+
+		"sdk of the source"
+		sdk: String!
+	}
+
 	extend type Filesystem {
-		"load an extension's metadata"
-		loadExtension(configPath: String!): Extension!
+		"load a project's metadata"
+		loadProject(configPath: String!): Project!
 	}
 
 	extend type Core {
-		"Look up an extension by name"
-		extension(name: String!): Extension!
+		"Look up a project by name"
+		project(name: String!): Project!
 	}
 	
 
@@ -153,22 +171,3 @@
 		addSecret(plaintext: String!): SecretID!
 	}
 	
-
-extend type Query {
-  netlify: Netlify!
-}
-
-type Netlify {
-  deploy(
-    contents: FSID!
-    subdir: String
-    siteName: String
-    token: SecretID!
-  ): Deploy!
-}
-
-type Deploy {
-  url: String!
-  deployURL: String!
-  logsURL: String
-}
