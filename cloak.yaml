@@ -1,7 +1,7 @@
 name: todoapp
 workflows:
-  #  - path: workflows/deploy-1
-  #    sdk: ts
+  - path: workflows/deploy-1
+    sdk: ts
   - path: workflows/deploy-2
     sdk: ts
   - path: workflows/deploy-3

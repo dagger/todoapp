@@ -2,9 +2,6 @@
 import { gql, Engine } from "@dagger.io/dagger";
 
 import { NetlifyAPI } from "netlify";
-import { execa } from "execa";
-
-import * as path from "path";
 
 new Engine({
 	ConfigPath: process.env.CLOAK_CONFIG
@@ -93,22 +90,11 @@ new Engine({
 	  }
 	  `).then((result) => result.core.filesystem.exec.mount)
 
-	// 5. write the result back to workdir
-	const result = await client.request(gql`
-	{
-		host {
-			workdir {
-				write(contents: "${sourceAfterBuild.id}")
-			}
-		}
-	}
-	`)
-
 	const netlifyToken = process.env["NETLIFY_AUTH_TOKEN"]
 	const netlifyClient = new NetlifyAPI(netlifyToken)
 	const netlifySiteName = "sam-test-cloak-deploy-js"
 
-	// 6. grab the netlify site name (create it if it does not exist)
+	// 5. grab the netlify site name (create it if it does not exist) from the Netlify API
 	var site = await netlifyClient
 		.listSites()
 		.then((sites) =>
@@ -123,23 +109,23 @@ new Engine({
 		})
 	}
 
-	const srcDir = path.join(process.cwd(), "build")
-
-	await execa("netlify", ["link", "--id", site.id], {
-	  stdout: "inherit",
-	  stderr: "inherit",
-	  cwd: srcDir,
-	})
-
-	await execa(
-	  "netlify",
-	  ["deploy", "--build", "--site", site.id, "--prod"],
-	  {
-		stdout: "inherit",
-		stderr: "inherit",
-		cwd: srcDir,
-	  }
-	)
+	// 6. Deploy to netlify from a container with the netlify-cli
+	const netlifyDeploy = await client.request(gql`
+	{
+		core {
+			image(ref: "index.docker.io/clearbanc/netlify-cli-deploy:4af2fe82fb") {
+				exec(input: {
+					args: ["netlify", "deploy", "--build", "--site", "${site.id}", "--prod", "--auth", "${netlifyToken}"]
+					mounts: [{ fs: "${sourceAfterInstall.id}", path: "/src" }]
+					workdir: "/src/build"
+				}) {
+					stderr
+					stdout
+				}
+			}
+		}
+	}
+	`).then((result) => result.core.image.exec)
 
 	site = await netlifyClient.getSite({ site_id: site.id })
 
