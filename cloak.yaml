@@ -1,7 +1,7 @@
 name: todoapp
-sources:
-#  - path: workflows/deploy-1
-#    sdk: ts
+workflows:
+  #  - path: workflows/deploy-1
+  #    sdk: ts
   - path: workflows/deploy-2
     sdk: ts
   - path: workflows/deploy-3
@@ -10,10 +10,10 @@ dependencies:
   # Erik's modified yarn extension
   - git:
       remote: git@github.com:sipsma/cloak.git
-      ref: workflow-clean
+      ref: workflow-test
       path: examples/yarn/cloak.yaml
   # Erik's modified netlify extension
   - git:
       remote: git@github.com:sipsma/cloak.git
-      ref: workflow-clean
+      ref: workflow-test
       path: examples/netlify/go/cloak.yaml
