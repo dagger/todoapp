@@ -16,31 +16,50 @@ import (
 
 func main() {
 	if err := engine.Start(context.Background(), &engine.Config{}, func(ctx context.Context, _ *coretypes.Project, _ map[string]dagger.FSID) error {
-		token, ok := os.LookupEnv("NETLIFY_AUTH_TOKEN")
+		// User can configure netlify site name with $NETLIFY_SITE_NAME
+		siteName, ok := os.LookupEnv("NETLIFY_SITE_NAME")
+		if !ok {
+			user, _ := os.LookupEnv("USER")
+			siteName = fmt.Sprintf("%s-dagger-todoapp", user)
+		}
+		fmt.Printf("Using Netlify site name \"%s\"", siteName)
+
+		// User must configure netlify API token with $NETLIFY_AUTH_TOKEN
+		tokenCleartext, ok := os.LookupEnv("NETLIFY_AUTH_TOKEN")
 		if !ok {
 			return fmt.Errorf("NETLIFY_AUTH_TOKEN not set")
 		}
-		addSecretResp, err := core.AddSecret(ctx, token)
-		if err != nil {
+
+		// Load API token into a s ecret
+		var tokenSecret dagger.SecretID
+		if resp, err := core.AddSecret(ctx, tokenCleartext); err != nil {
 			return err
+		} else {
+			tokenSecret = resp.Core.AddSecret
 		}
 
-		workdirResp, err := core.Workdir(ctx)
-		if err != nil {
+		var workdir dagger.FSID
+		if resp, err := core.Workdir(ctx); err != nil {
 			return err
+		} else {
+			workdir = resp.Host.Workdir.Read.ID
 		}
 
-		yarnResp, err := yarn.Script(ctx, workdirResp.Host.Workdir.Read.ID, []string{"react-scripts", "build"})
-		if err != nil {
+		var sourceAfterBuild dagger.FSID
+		if resp, err := yarn.Script(ctx, workdir, []string{"react-scripts", "build"}); err != nil {
 			return err
+		} else {
+			sourceAfterBuild = resp.Yarn.Script.ID
 		}
 
-		netlifyResp, err := netlify.Deploy(ctx, yarnResp.Yarn.Script.ID, "build", "sam-cloak-test-demo", addSecretResp.Core.AddSecret)
-		if err != nil {
+		var deployInfo netlify.DeployNetlifyDeploy
+		if resp, err := netlify.Deploy(ctx, sourceAfterBuild, "build", siteName, tokenSecret); err != nil {
 			return err
+		} else {
+			deployInfo = resp.Netlify.Deploy
 		}
 
-		output, err := json.Marshal(netlifyResp)
+		output, err := json.Marshal(deployInfo)
 		if err != nil {
 			return err
 		}
