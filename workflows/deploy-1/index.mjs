@@ -110,12 +110,14 @@ new Engine({
 	}
 
 	// 6. Deploy to netlify from a container with the netlify-cli
+	// FIXME: the ENV directive on the pulled image is ignored
+	// once it's fixed, we can removed the absolute path for the netlify-cli
 	const netlifyDeploy = await client.request(gql`
 	{
 		core {
-			image(ref: "index.docker.io/clearbanc/netlify-cli-deploy:4af2fe82fb") {
+			image(ref: "index.docker.io/samalba/netlify-cli:multi-arch") {
 				exec(input: {
-					args: ["netlify", "deploy", "--build", "--site", "${site.id}", "--prod", "--auth", "${netlifyToken}"]
+					args: ["/netlify/node_modules/.bin/netlify", "deploy", "--build", "--site", "${site.id}", "--prod", "--auth", "${netlifyToken}"]
 					mounts: [{ fs: "${sourceAfterInstall.id}", path: "/src" }]
 					workdir: "/src/build"
 				}) {
