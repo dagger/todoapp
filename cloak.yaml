@@ -4,7 +4,7 @@ workflows:
     sdk: ts
   - path: workflows/deploy-2
     sdk: ts
-  - path: workflows/deploy-3
+  - path: api/
     sdk: go
 dependencies:
   - git:

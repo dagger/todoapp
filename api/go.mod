@@ -1,4 +1,4 @@
-module github.com/dagger/todoapp
+module github.com/dagger/todoapp/api
 
 go 1.19
 

@@ -22,8 +22,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy-1": "node workflows/deploy-1/index.mjs",
-    "deploy-2": "node workflows/deploy-2/index.mjs",
-    "deploy-3": "go run workflows/deploy-3/main.go"
+    "deploy-2": "node workflows/deploy-2/index.mjs"
   },
   "eslintConfig": {
     "extends": "react-app"

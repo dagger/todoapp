@@ -1,3 +1,4 @@
+//go:build mage
 package main
 
 import (
@@ -9,13 +10,13 @@ import (
 	coretypes "github.com/dagger/cloak/core"
 	"github.com/dagger/cloak/engine"
 	"github.com/dagger/cloak/sdk/go/dagger"
-	"github.com/dagger/todoapp/workflows/deploy-3/gen/core"
-	"github.com/dagger/todoapp/workflows/deploy-3/gen/netlify"
-	"github.com/dagger/todoapp/workflows/deploy-3/gen/yarn"
+	"github.com/dagger/todoapp/api/gen/core"
+	"github.com/dagger/todoapp/api/gen/netlify"
+	"github.com/dagger/todoapp/api/gen/yarn"
 )
 
-func main() {
-	if err := engine.Start(context.Background(), &engine.Config{}, func(ctx context.Context, _ *coretypes.Project, _ map[string]dagger.FSID) error {
+func Deploy(ctx context.Context) {
+	if err := engine.Start(ctx, &engine.Config{}, func(ctx context.Context, _ *coretypes.Project, _ map[string]dagger.FSID) error {
 		// User can configure netlify site name with $NETLIFY_SITE_NAME
 		siteName, ok := os.LookupEnv("NETLIFY_SITE_NAME")
 		if !ok {
