@@ -30,35 +30,39 @@ func main() {
 			return fmt.Errorf("NETLIFY_AUTH_TOKEN not set")
 		}
 
-		// Load API token into a s ecret
-		var tokenSecret dagger.SecretID
+		// Load API token into a secret
+		var token dagger.SecretID
 		if resp, err := core.AddSecret(ctx, tokenCleartext); err != nil {
 			return err
 		} else {
-			tokenSecret = resp.Core.AddSecret
+			token = resp.Core.AddSecret
 		}
 
-		var workdir dagger.FSID
+		// Load source code from workdir
+		var source dagger.FSID
 		if resp, err := core.Workdir(ctx); err != nil {
 			return err
 		} else {
-			workdir = resp.Host.Workdir.Read.ID
+			source = resp.Host.Workdir.Read.ID
 		}
 
+		// Build with yarn
 		var sourceAfterBuild dagger.FSID
-		if resp, err := yarn.Script(ctx, workdir, []string{"react-scripts", "build"}); err != nil {
+		if resp, err := yarn.Script(ctx, source, []string{"react-scripts", "build"}); err != nil {
 			return err
 		} else {
 			sourceAfterBuild = resp.Yarn.Script.ID
 		}
 
+		// Deploy to netlify
 		var deployInfo netlify.DeployNetlifyDeploy
-		if resp, err := netlify.Deploy(ctx, sourceAfterBuild, "build", siteName, tokenSecret); err != nil {
+		if resp, err := netlify.Deploy(ctx, sourceAfterBuild, "build", siteName, token); err != nil {
 			return err
 		} else {
 			deployInfo = resp.Netlify.Deploy
 		}
 
+		// Print deployment info to the user
 		output, err := json.Marshal(deployInfo)
 		if err != nil {
 			return err
