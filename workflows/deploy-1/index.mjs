@@ -110,7 +110,7 @@ new Engine({
 
   const netlifyToken = process.env["NETLIFY_AUTH_TOKEN"];
   const netlifyClient = new NetlifyAPI(netlifyToken);
-  const netlifySiteName = "test-cloak-netlify-deploy";
+  const netlifySiteName = "sam-test-cloak-deploy-js";
 
   // 5. grab the netlify site name (create it if it does not exist) from the Netlify API
   var site = await netlifyClient
