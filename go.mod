@@ -2,13 +2,9 @@ module github.com/dagger/todoapp
 
 go 1.19
 
-replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20220414164044-61404de7df1a+incompatible
-
-replace github.com/dagger/cloak => github.com/sipsma/cloak v0.0.0-20220826234358-39a50f22ad17
-
 require (
 	github.com/Khan/genqlient v0.5.0
-	github.com/dagger/cloak v0.0.0-20220826183549-d44b8252041d
+	github.com/dagger/cloak v0.0.0-20220827003511-3475d2d87883
 )
 
 require (
@@ -71,3 +67,5 @@ require (
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
+
+replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20220414164044-61404de7df1a+incompatible

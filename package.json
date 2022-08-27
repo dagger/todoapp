@@ -14,7 +14,7 @@
     "netlify": "^12.0.0"
   },
   "devDependencies": {
-    "@dagger.io/dagger": "git+ssh://git@github.com:sipsma/cloak.git#nodejs-sdk"
+    "@dagger.io/dagger": "git+ssh://git@github.com:dagger/cloak.git#demov2-nodejs-sdk"
   },
   "scripts": {
     "start": "react-scripts start",

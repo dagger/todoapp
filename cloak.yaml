@@ -7,13 +7,11 @@ workflows:
   - path: workflows/deploy-3
     sdk: go
 dependencies:
-  # Erik's modified yarn extension
   - git:
-      remote: git@github.com:sipsma/cloak.git
-      ref: workflow-clean
+      remote: git@github.com:dagger/cloak.git
+      ref: demov2
       path: examples/yarn/cloak.yaml
-  # Erik's modified netlify extension
   - git:
-      remote: git@github.com:sipsma/cloak.git
-      ref: workflow-clean
+      remote: git@github.com:dagger/cloak.git
+      ref: demov2
       path: examples/netlify/go/cloak.yaml
