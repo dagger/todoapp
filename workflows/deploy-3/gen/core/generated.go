@@ -63,6 +63,19 @@ type ExecCore struct {
 // GetFilesystem returns ExecCore.Filesystem, and is useful for accessing the field via an interface.
 func (v *ExecCore) GetFilesystem() dagger.Filesystem { return v.Filesystem }
 
+type ExecEnvInput struct {
+	// Env var name
+	Name string `json:"name"`
+	// Env var value
+	Value string `json:"value"`
+}
+
+// GetName returns ExecEnvInput.Name, and is useful for accessing the field via an interface.
+func (v *ExecEnvInput) GetName() string { return v.Name }
+
+// GetValue returns ExecEnvInput.Value, and is useful for accessing the field via an interface.
+func (v *ExecEnvInput) GetValue() string { return v.Value }
+
 // ExecGetMountCore includes the requested fields of the GraphQL type Core.
 // The GraphQL type's documentation follows.
 //
@@ -92,6 +105,10 @@ type ExecInput struct {
 	Mounts []MountInput `json:"mounts"`
 	// Working directory
 	Workdir string `json:"workdir"`
+	// Env vars
+	Env []ExecEnvInput `json:"env"`
+	// Secret env vars
+	SecretEnv []ExecSecretEnvInput `json:"secretEnv"`
 }
 
 // GetArgs returns ExecInput.Args, and is useful for accessing the field via an interface.
@@ -103,6 +120,12 @@ func (v *ExecInput) GetMounts() []MountInput { return v.Mounts }
 // GetWorkdir returns ExecInput.Workdir, and is useful for accessing the field via an interface.
 func (v *ExecInput) GetWorkdir() string { return v.Workdir }
 
+// GetEnv returns ExecInput.Env, and is useful for accessing the field via an interface.
+func (v *ExecInput) GetEnv() []ExecEnvInput { return v.Env }
+
+// GetSecretEnv returns ExecInput.SecretEnv, and is useful for accessing the field via an interface.
+func (v *ExecInput) GetSecretEnv() []ExecSecretEnvInput { return v.SecretEnv }
+
 // ExecResponse is returned by Exec on success.
 type ExecResponse struct {
 	// Core API
@@ -111,6 +134,19 @@ type ExecResponse struct {
 
 // GetCore returns ExecResponse.Core, and is useful for accessing the field via an interface.
 func (v *ExecResponse) GetCore() ExecCore { return v.Core }
+
+type ExecSecretEnvInput struct {
+	// Env var name
+	Name string `json:"name"`
+	// Secret env var value
+	Id dagger.SecretID `json:"id"`
+}
+
+// GetName returns ExecSecretEnvInput.Name, and is useful for accessing the field via an interface.
+func (v *ExecSecretEnvInput) GetName() string { return v.Name }
+
+// GetId returns ExecSecretEnvInput.Id, and is useful for accessing the field via an interface.
+func (v *ExecSecretEnvInput) GetId() dagger.SecretID { return v.Id }
 
 // ImageCore includes the requested fields of the GraphQL type Core.
 // The GraphQL type's documentation follows.

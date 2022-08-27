@@ -305,8 +305,8 @@ github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQD
 github.com/sergi/go-diff v1.1.0 h1:we8PVUC3FE2uYfodKH/nBHMSetSfHDR6scGdBi+erh0=
 github.com/sergi/go-diff v1.1.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNXdaHfM=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
-github.com/sipsma/cloak v0.0.0-20220826215227-c8f764daa800 h1:G8dQSqgBG6fGkSvKAXBrjW7oOvHXFg6Zcb467A/ZoeU=
-github.com/sipsma/cloak v0.0.0-20220826215227-c8f764daa800/go.mod h1:GcTfKbk+OiraBsRMwDQX1YUE5bZUcuybm8bHK24Nnx8=
+github.com/sipsma/cloak v0.0.0-20220826234358-39a50f22ad17 h1:Iar0d+l8ho5dutF9IXpCVD3sZ9EP+NPVCg/qy9tl3iU=
+github.com/sipsma/cloak v0.0.0-20220826234358-39a50f22ad17/go.mod h1:GcTfKbk+OiraBsRMwDQX1YUE5bZUcuybm8bHK24Nnx8=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=

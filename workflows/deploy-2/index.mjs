@@ -5,12 +5,14 @@ import { gql, Engine } from "@dagger.io/dagger";
 if (!process.env.NETLIFY_AUTH_TOKEN) {
 	console.log("Missing netlify API token. Please set it to the env variable $NETLIFY_AUTH_TOKEN")
 	process.exit(1)
-
 }
 
 const netlifySiteName = null
 if (process.env.NETLIFY_SITE_NAME) {
 	const netlifySiteName = process.env.NETLIFY_SITE_NAME
+	console.log(`
+		Using netlify site name: "${netlifySiteName}"
+	`)
 } else {
 	const netlifySiteName = `${process.env.USER}-dagger-todoapp`
 	console.log(`

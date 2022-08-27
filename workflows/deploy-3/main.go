@@ -9,9 +9,9 @@ import (
 	coretypes "github.com/dagger/cloak/core"
 	"github.com/dagger/cloak/engine"
 	"github.com/dagger/cloak/sdk/go/dagger"
-	"github.com/dagger/todoapp/workflows/deploy/gen/core"
-	"github.com/dagger/todoapp/workflows/deploy/gen/netlify"
-	"github.com/dagger/todoapp/workflows/deploy/gen/yarn"
+	"github.com/dagger/todoapp/workflows/deploy-3/gen/core"
+	"github.com/dagger/todoapp/workflows/deploy-3/gen/netlify"
+	"github.com/dagger/todoapp/workflows/deploy-3/gen/yarn"
 )
 
 func main() {
