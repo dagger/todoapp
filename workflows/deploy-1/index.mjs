@@ -89,7 +89,7 @@ new Engine({
 		  filesystem(id: "${image.id}") {
 			exec(
 			  input: {
-				args: ["./node_modules/.bin/react-scripts", "build"]
+				args: ["yarn", "run", "react-scripts", "build"]
 				mounts: [{ fs: "${sourceAfterInstall.id}", path: "/src" }]
 				workdir: "/src"
         env: {name: "YARN_CACHE_FOLDER", value: "/cache"},
@@ -110,7 +110,7 @@ new Engine({
 
   const netlifyToken = process.env["NETLIFY_AUTH_TOKEN"];
   const netlifyClient = new NetlifyAPI(netlifyToken);
-  const netlifySiteName = "sam-test-cloak-deploy-js";
+  const netlifySiteName = "test-cloak-netlify-deploy";
 
   // 5. grab the netlify site name (create it if it does not exist) from the Netlify API
   var site = await netlifyClient
@@ -149,7 +149,7 @@ new Engine({
 			image(ref: "index.docker.io/samalba/netlify-cli:multi-arch") {
 				exec(input: {
 					args: ["/netlify/node_modules/.bin/netlify", "link", "--id", "${site.id}"]
-					mounts: [{ fs: "${sourceAfterInstall.id}", path: "/src" }]
+					mounts: [{ fs: "${sourceAfterBuild.id}", path: "/src" }]
 					workdir: "/src/build"
           secretEnv:{name:"NETLIFY_AUTH_TOKEN", id:"${tokenSecretID}"}
 				}) {
