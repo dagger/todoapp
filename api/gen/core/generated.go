@@ -30,6 +30,24 @@ type AddSecretResponse struct {
 // GetCore returns AddSecretResponse.Core, and is useful for accessing the field via an interface.
 func (v *AddSecretResponse) GetCore() AddSecretCore { return v.Core }
 
+type CacheMountInput struct {
+	// Cache mount name
+	Name string `json:"name"`
+	// Cache mount sharing mode (TODO: switch to enum)
+	SharingMode string `json:"sharingMode"`
+	// path at which the cache will be mounted
+	Path string `json:"path"`
+}
+
+// GetName returns CacheMountInput.Name, and is useful for accessing the field via an interface.
+func (v *CacheMountInput) GetName() string { return v.Name }
+
+// GetSharingMode returns CacheMountInput.SharingMode, and is useful for accessing the field via an interface.
+func (v *CacheMountInput) GetSharingMode() string { return v.SharingMode }
+
+// GetPath returns CacheMountInput.Path, and is useful for accessing the field via an interface.
+func (v *CacheMountInput) GetPath() string { return v.Path }
+
 // DockerfileCore includes the requested fields of the GraphQL type Core.
 // The GraphQL type's documentation follows.
 //
@@ -103,6 +121,8 @@ type ExecInput struct {
 	Args []string `json:"args"`
 	// Filesystem mounts
 	Mounts []MountInput `json:"mounts"`
+	// Cached mounts
+	CacheMounts []CacheMountInput `json:"cacheMounts"`
 	// Working directory
 	Workdir string `json:"workdir"`
 	// Env vars
@@ -116,6 +136,9 @@ func (v *ExecInput) GetArgs() []string { return v.Args }
 
 // GetMounts returns ExecInput.Mounts, and is useful for accessing the field via an interface.
 func (v *ExecInput) GetMounts() []MountInput { return v.Mounts }
+
+// GetCacheMounts returns ExecInput.CacheMounts, and is useful for accessing the field via an interface.
+func (v *ExecInput) GetCacheMounts() []CacheMountInput { return v.CacheMounts }
 
 // GetWorkdir returns ExecInput.Workdir, and is useful for accessing the field via an interface.
 func (v *ExecInput) GetWorkdir() string { return v.Workdir }

@@ -69,3 +69,5 @@ require (
 )
 
 replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20220414164044-61404de7df1a+incompatible
+
+replace github.com/dagger/cloak => github.com/sipsma/cloak v0.0.0-20220827012253-2a7e20d0936a

@@ -152,6 +152,17 @@
 		path: String!
 	}
 
+	input CacheMountInput {
+		"Cache mount name"
+		name: String!
+
+		"Cache mount sharing mode (TODO: switch to enum)"
+		sharingMode: String!
+
+		"path at which the cache will be mounted"
+		path: String!
+	}
+
 	input ExecInput {
 		"""
 		Command to execute
@@ -161,6 +172,9 @@
 
 		"Filesystem mounts"
 		mounts: [MountInput!]
+
+		"Cached mounts"
+		cacheMounts: [CacheMountInput!]
 
 		"Working directory"
 		workdir: String
