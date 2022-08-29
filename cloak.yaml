@@ -14,4 +14,4 @@ dependencies:
   - git:
       remote: git@github.com:dagger/cloak.git
       ref: demov2
-      path: examples/netlify/go/cloak.yaml
+      path: examples/netlify/ts/cloak.yaml
