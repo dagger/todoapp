@@ -1,11 +1,10 @@
 // Build todoapp, the hard way
 import { gql, Engine } from "@dagger.io/dagger";
-
 import { NetlifyAPI } from "netlify";
 
-new Engine({
-  ConfigPath: process.env.CLOAK_CONFIG,
-}).run(async (client) => {
+const engine = new Engine({ ConfigPath: process.env.CLOAK_CONFIG });
+
+engine.run(async (client) => {
   // 1. Load app source code from working directory
   const source = await client
     .request(
@@ -30,19 +29,9 @@ new Engine({
         {
           core {
             image(ref: "index.docker.io/alpine") {
-              exec(input: { args: ["apk", "add", "yarn"] }) {
-                stdout
+              exec(input: { args: ["apk", "add", "yarn", "git", "openssh"] }) {
                 fs {
-                  exec(input: { args: ["apk", "add", "git"] }) {
-                    stdout
-                    fs {
-                      exec(input: { args: ["apk", "add", "openssh"] }) {
-                        fs {
-                          id
-                        }
-                      }
-                    }
-                  }
+                  id
                 }
               }
             }
@@ -50,33 +39,33 @@ new Engine({
         }
       `
     )
-    .then((result) => result.core.image.exec.fs.exec.fs.exec.fs);
+    .then((result) => result.core.image.exec.fs);
 
   // 3. Run 'yarn install' in a container
   const sourceAfterInstall = await client
     .request(
       gql`
-	{
-		core {
-		  filesystem(id: "${image.id}") {
-			exec(
-			  input: {
-				args: ["yarn", "install"]
-				mounts: [{ fs: "${source.id}", path: "/src" }]
-				workdir: "/src"
-        env: {name: "YARN_CACHE_FOLDER", value: "/cache"},
-        cacheMounts:{name:"yarn", path:"/cache", sharingMode:"locked"},
-			  }
-			) {
-			  # Retrieve modified source
-			  mount(path: "/src") {
-				id
-			  }
-			}
-		  }
-		}
-	  }
-	`
+          {
+            core {
+              filesystem(id: "${image.id}") {
+              exec(
+                input: {
+                args: ["yarn", "install"]
+                mounts: [{ fs: "${source.id}", path: "/src" }]
+                workdir: "/src"
+                env: {name: "YARN_CACHE_FOLDER", value: "/cache"},
+                cacheMounts:{name:"yarn", path:"/cache", sharingMode:"locked"},
+                }
+              ) {
+                # Retrieve modified source
+                mount(path: "/src") {
+                id
+                }
+              }
+              }
+            }
+          }
+        `
     )
     .then((result) => result.core.filesystem.exec.mount);
 
@@ -84,27 +73,27 @@ new Engine({
   const sourceAfterBuild = await client
     .request(
       gql` 
-	{
-		core {
-		  filesystem(id: "${image.id}") {
-			exec(
-			  input: {
-				args: ["yarn", "run", "react-scripts", "build"]
-				mounts: [{ fs: "${sourceAfterInstall.id}", path: "/src" }]
-				workdir: "/src"
-        env: {name: "YARN_CACHE_FOLDER", value: "/cache"},
-        cacheMounts:{name:"yarn", path:"/cache", sharingMode:"locked"},
-			  }
-			) {
-			  # Retrieve modified source
-			  mount(path: "/src") {
-				id
-			  }
-			}
-		  }
-		}
-	  }
-	  `
+          {
+            core {
+              filesystem(id: "${image.id}") {
+                exec(
+                  input: {
+                    args: ["yarn", "run", "react-scripts", "build"]
+                    mounts: [{ fs: "${sourceAfterInstall.id}", path: "/src" }]
+                    workdir: "/src"
+                    env: {name: "YARN_CACHE_FOLDER", value: "/cache"},
+                    cacheMounts:{name:"yarn", path:"/cache", sharingMode:"locked"},
+                  }
+                ) {
+                  # Retrieve modified source
+                  mount(path: "/src") {
+                    id
+                  }
+                }
+              }
+            }
+          }
+      `
     )
     .then((result) => result.core.filesystem.exec.mount);
 
@@ -118,7 +107,7 @@ new Engine({
     .then((sites) => sites.find((site) => site.name === netlifySiteName));
 
   if (site === undefined) {
-    var site = await netlifyClient.createSite({
+    site = await netlifyClient.createSite({
       body: {
         name: netlifySiteName,
       },
@@ -144,47 +133,45 @@ new Engine({
   const netlifyLink = await client
     .request(
       gql`
-	{
-		core {
-			image(ref: "index.docker.io/samalba/netlify-cli:multi-arch") {
-				exec(input: {
-					args: ["/netlify/node_modules/.bin/netlify", "link", "--id", "${site.id}"]
-					mounts: [{ fs: "${sourceAfterBuild.id}", path: "/src" }]
-					workdir: "/src/build"
-          secretEnv:{name:"NETLIFY_AUTH_TOKEN", id:"${tokenSecretID}"}
-				}) {
-					mount(path: "/src") {
-            id
+        {
+          core {
+            image(ref: "index.docker.io/samalba/netlify-cli:multi-arch") {
+              exec(input: {
+                args: ["/netlify/node_modules/.bin/netlify", "link", "--id", "${site.id}"]
+                mounts: [{ fs: "${sourceAfterBuild.id}", path: "/src" }]
+                workdir: "/src/build"
+                secretEnv:{name:"NETLIFY_AUTH_TOKEN", id:"${tokenSecretID}"}
+              }) {
+                mount(path: "/src") {
+                  id
+                }
+              }
+            }
           }
-				}
-			}
-		}
-	}
-	`
+        }
+      `
     )
     .then((result) => result.core.image.exec.mount);
 
-  const netlifyDeploy = await client
-    .request(
-      gql`
-	{
-		core {
-			image(ref: "index.docker.io/samalba/netlify-cli:multi-arch") {
-				exec(input: {
-					args: ["/netlify/node_modules/.bin/netlify", "deploy", "--build", "--site", "${site.id}", "--prod"]
-					mounts: [{ fs: "${netlifyLink.id}", path: "/src" }]
-					workdir: "/src/build"
-          secretEnv:{name:"NETLIFY_AUTH_TOKEN", id:"${tokenSecretID}"}
-				}) {
-					stderr
-					stdout
-				}
-			}
-		}
-	}
-	`
-    )
-    .then((result) => result.core.image.exec);
+  await client.request(
+    gql`
+        {
+          core {
+            image(ref: "index.docker.io/samalba/netlify-cli:multi-arch") {
+              exec(input: {
+                args: ["/netlify/node_modules/.bin/netlify", "deploy", "--build", "--site", "${site.id}", "--prod"]
+                mounts: [{ fs: "${netlifyLink.id}", path: "/src" }]
+                workdir: "/src/build"
+                secretEnv:{name:"NETLIFY_AUTH_TOKEN", id:"${tokenSecretID}"}
+              }) {
+                stderr
+                stdout
+              }
+            }
+          }
+        }
+      `
+  );
 
   site = await netlifyClient.getSite({ site_id: site.id });
 
