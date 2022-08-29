@@ -1,10 +1,10 @@
-module github.com/dagger/todoapp/api
+module github.com/dagger/todoapp/api/magefiles
 
 go 1.19
 
 require (
 	github.com/Khan/genqlient v0.5.0
-	github.com/dagger/cloak v0.0.0-20220827003511-3475d2d87883
+	github.com/dagger/cloak v0.0.0-20220830001148-4f595cceb706
 )
 
 require (
@@ -20,6 +20,7 @@ require (
 	github.com/docker/cli v20.10.17+incompatible // indirect
 	github.com/docker/distribution v2.8.1+incompatible // indirect
 	github.com/docker/docker v20.10.17+incompatible // indirect
+	github.com/docker/docker-credential-helpers v0.6.4 // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
@@ -34,7 +35,7 @@ require (
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.11.2 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
-	github.com/moby/buildkit v0.10.3 // indirect
+	github.com/moby/buildkit v0.10.4 // indirect
 	github.com/moby/locker v1.0.1 // indirect
 	github.com/moby/sys/signal v0.7.0 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
@@ -69,5 +70,3 @@ require (
 )
 
 replace github.com/docker/docker => github.com/docker/docker v20.10.3-0.20220414164044-61404de7df1a+incompatible
-
-replace github.com/dagger/cloak => github.com/sipsma/cloak v0.0.0-20220827012253-2a7e20d0936a
