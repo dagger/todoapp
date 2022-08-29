@@ -234,11 +234,15 @@ type Netlify {
     subdir: String
     siteName: String
     token: SecretID!
-  ): Deploy!
+  ): SiteURLs!
 }
 
-type Deploy {
+type SiteURLs {
   url: String!
   deployURL: String!
   logsURL: String
+}
+
+extend type Filesystem {
+  netlifyDeploy(subdir: String, siteName: String, token: SecretID!): SiteURLs!
 }
