@@ -10,8 +10,7 @@ import (
 	"github.com/dagger/cloak/engine"
 	"github.com/dagger/cloak/sdk/go/dagger"
 	"github.com/dagger/todoapp/api/magefiles/gen/core"
-	"github.com/dagger/todoapp/api/magefiles/gen/netlify"
-	"github.com/dagger/todoapp/api/magefiles/gen/yarn"
+	"github.com/dagger/todoapp/api/magefiles/gen/todoapp"
 )
 
 func Deploy(ctx context.Context) {
@@ -46,24 +45,14 @@ func Deploy(ctx context.Context) {
 			source = resp.Host.Workdir.Read.ID
 		}
 
-		// Build with yarn
-		var sourceAfterBuild dagger.FSID
-		if resp, err := yarn.Script(ctx, source, []string{"react-scripts", "build"}); err != nil {
+		// Deploy using the todoapp deploy extension
+		resp, err := todoapp.Deploy(ctx, source, siteName, token)
+		if err != nil {
 			return err
-		} else {
-			sourceAfterBuild = resp.Yarn.Script.ID
-		}
-
-		// Deploy to netlify
-		var url string
-		if resp, err := netlify.Deploy(ctx, sourceAfterBuild, "build", siteName, token); err != nil {
-			return err
-		} else {
-			url = resp.Netlify.Deploy.Url
 		}
 
 		// Print deployment info to the user
-		fmt.Println("URL:", url)
+		fmt.Println("URL:", resp.Todoapp.Deploy)
 
 		return nil
 	}); err != nil {
