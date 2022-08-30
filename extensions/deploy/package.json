@@ -1,0 +1,13 @@
+{
+  "name": "deploy",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@dagger.io/dagger": "git+ssh://git@github.com:dagger/cloak.git#demov2-nodejs-sdk",
+    "typescript": "^4.7.4"
+  }
+}

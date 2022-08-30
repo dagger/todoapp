@@ -1,8 +1,8 @@
 name: todoapp
 workflows:
-  - path: workflows/deploy-1
+  - path: scripts/deploy-1
     sdk: ts
-  - path: workflows/deploy-2
+  - path: scripts/deploy-2
     sdk: ts
   - path: api/magefiles
     sdk: go
@@ -15,3 +15,4 @@ dependencies:
       remote: git@github.com:dagger/cloak.git
       ref: demov2
       path: examples/netlify/ts/cloak.yaml
+

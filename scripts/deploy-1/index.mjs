@@ -20,7 +20,7 @@ engine.run(async (client) => {
         }
       `
     )
-    .then((result) => result.host.workdir.read);
+    .then((result) => result.host.workdir.read.id);
 
   // 2. Install yarn in a container
   const image = await client
@@ -39,7 +39,7 @@ engine.run(async (client) => {
         }
       `
     )
-    .then((result) => result.core.image.exec.fs);
+    .then((result) => result.core.image.exec.fs.id);
 
   // 3. Run 'yarn install' in a container
   const sourceAfterInstall = await client
@@ -71,11 +71,11 @@ engine.run(async (client) => {
         }
       `,
       {
-        image: image.id,
-        source: source.id,
+        image,
+        source,
       }
     )
-    .then((result) => result.core.filesystem.exec.mount);
+    .then((result) => result.core.filesystem.exec.mount.id);
 
   // 4. Run 'yarn run build' in a container
   const sourceAfterBuild = await client
@@ -107,11 +107,11 @@ engine.run(async (client) => {
         }
       `,
       {
-        image: image.id,
-        sourceAfterInstall: sourceAfterInstall.id,
+        image,
+        sourceAfterInstall,
       }
     )
-    .then((result) => result.core.filesystem.exec.mount);
+    .then((result) => result.core.filesystem.exec.mount.id);
 
   const netlifyToken = process.env["NETLIFY_AUTH_TOKEN"];
   const netlifyClient = new NetlifyAPI(netlifyToken);
@@ -181,7 +181,7 @@ engine.run(async (client) => {
       }
     `,
     {
-      sourceAfterBuild: sourceAfterBuild.id,
+      sourceAfterBuild,
       siteId: site.id,
       tokenSecretId,
     }

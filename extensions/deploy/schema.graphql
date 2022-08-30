@@ -1,0 +1,7 @@
+extend type Query {
+  todoapp: TodoApp!
+}
+
+type TodoApp {
+  deploy(source: FSID!, siteName: String!, token: SecretID!): String!
+}
