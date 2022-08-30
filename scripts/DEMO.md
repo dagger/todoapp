@@ -35,23 +35,8 @@ What if we kept our artisanal scripts, but backed them with an API? Then as the 
 
 That sounds nice in theory but how would it work in practice?
 
-Demo time!
-
-## Demo 1: kicking the tires
-
-## Demo 2: custom deployment pipeline in a npm script (JS)
-
-## Demo 3: custom deployment pipeline in a Magefile (Go)
-
-
-
-(END)
-
----- MISC SNIPPETS
-
-
 -- (Objection 1)
-That sounds nice in theory, but probably impossible in practice. Scripts are written in all sorts of languages, to spin out all our useful automation into a unified API would require porting them all to a single language and that would not be cost-efficient. If only there was an existing technology that allowed running code from any language in a unified runtime environment, with no code modifications... Preferable one with a massive ecosystem that developers and operators are already familiar with. (lol)
+Scripts are written in all sorts of languages, to spin out all our useful automation into a unified API would require porting them all to a single language and that would not be cost-efficient. If only there was an existing technology that allowed running code from any language in a unified runtime environment, with no code modifications... Preferable one with a massive ecosystem that developers and operators are already familiar with. (lol)
 
 Of course the answer is to run our automation pipelines in containers.
 
@@ -59,3 +44,17 @@ Of course the answer is to run our automation pipelines in containers.
 But wait a minute, there is another problem. Even if we can run all our automation in containers, we still need an API. And that API must be highly modular and composable. Otherwise as it grows, it will attract technical debt just like our artisanal scripts, and we will simply have moved the problem. Here too we would need a technology designed for API modularity and composition, and with a huge ecosystem to make sure there is great tooling and language support.
 
 Luckily such a technology exists: it's called GraphQL.
+
+
+
+Demo time!
+
+## Demo 1: kicking the tires
+
+## Demo 2: custom deployment pipeline from a npm script (JS)
+
+## Demo 3: reuse the pipeline from a Magefile (Go)
+
+(END)
+
+---- MISC SNIPPETS
