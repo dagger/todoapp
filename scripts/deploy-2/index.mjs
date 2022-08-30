@@ -32,35 +32,44 @@ new Engine().run(async (client) => {
   const netlifyTokenSecret = await client
     .request(
       gql`
-        {
+        query ($netlifyTokenCleartext: String!) {
           core {
-            addSecret(plaintext: "${netlifyTokenCleartext}")
+            addSecret(plaintext: $netlifyTokenCleartext)
           }
         }
-      `
+      `,
+      {
+        netlifyTokenCleartext,
+      }
     )
     .then((result) => result.core.addSecret);
 
   // 2. Build with yarn and deploy to netlify
-  const result = await client.request(gql`
-    {
-      host {
-        workdir {
-          read {
-            yarn(runArgs: ["build"]) {
-              netlifyDeploy(
-                subdir: "build",
-                siteName: "${netlifySiteName}",
-                token: "${netlifyTokenSecret}",
-              ) {
-                url
+  const result = await client.request(
+    gql`
+      query deploy($netlifySiteName: String!, $netlifyTokenSecret: SecretID!) {
+        host {
+          workdir {
+            read {
+              yarn(runArgs: ["build"]) {
+                netlifyDeploy(
+                  subdir: "build"
+                  siteName: $netlifySiteName
+                  token: $netlifyTokenSecret
+                ) {
+                  url
+                }
               }
             }
           }
         }
       }
+    `,
+    {
+      netlifySiteName,
+      netlifyTokenSecret,
     }
-  `);
+  );
   console.log(
     "\nNetlify deploy URL: " + result.host.workdir.read.yarn.netlifyDeploy.url
   );
