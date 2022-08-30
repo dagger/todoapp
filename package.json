@@ -21,8 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy-1": "node workflows/deploy-1/index.mjs",
-    "deploy-2": "node workflows/deploy-2/index.mjs"
+    "deploy-1": "node scripts/deploy-1/index.mjs",
+    "deploy-2": "node scripts/deploy-2/index.mjs"
   },
   "eslintConfig": {
     "extends": "react-app"
