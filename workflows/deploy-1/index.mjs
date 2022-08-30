@@ -128,39 +128,14 @@ engine.run(async (client) => {
     .then((result) => result.core.addSecret);
 
   // 7. Deploy to netlify from a container with the netlify-cli
-  // FIXME: the ENV directive on the pulled image is ignored
-  // once it's fixed, we can removed the absolute path for the netlify-cli
-  const netlifyLink = await client
-    .request(
-      gql`
-        {
-          core {
-            image(ref: "index.docker.io/samalba/netlify-cli:multi-arch") {
-              exec(input: {
-                args: ["/netlify/node_modules/.bin/netlify", "link", "--id", "${site.id}"]
-                mounts: [{ fs: "${sourceAfterBuild.id}", path: "/src" }]
-                workdir: "/src/build"
-                secretEnv:{name:"NETLIFY_AUTH_TOKEN", id:"${tokenSecretID}"}
-              }) {
-                mount(path: "/src") {
-                  id
-                }
-              }
-            }
-          }
-        }
-      `
-    )
-    .then((result) => result.core.image.exec.mount);
-
   await client.request(
     gql`
         {
           core {
             image(ref: "index.docker.io/samalba/netlify-cli:multi-arch") {
               exec(input: {
-                args: ["/netlify/node_modules/.bin/netlify", "deploy", "--build", "--site", "${site.id}", "--prod"]
-                mounts: [{ fs: "${netlifyLink.id}", path: "/src" }]
+                args: ["/netlify/node_modules/.bin/netlify", "deploy", "--dir=.", "--build", "--site", "${site.id}", "--prod"]
+                mounts: [{ fs: "${sourceAfterBuild.id}", path: "/src" }]
                 workdir: "/src/build"
                 secretEnv:{name:"NETLIFY_AUTH_TOKEN", id:"${tokenSecretID}"}
               }) {
