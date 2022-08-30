@@ -99,7 +99,7 @@ engine.run(async (client) => {
 
   const netlifyToken = process.env["NETLIFY_AUTH_TOKEN"];
   const netlifyClient = new NetlifyAPI(netlifyToken);
-  const netlifySiteName = "sam-test-cloak-deploy-js";
+  const netlifySiteName = process.env.NETLIFY_SITE_NAME ?? `${process.env.USER}-dagger-todoapp`;
 
   // 5. grab the netlify site name (create it if it does not exist) from the Netlify API
   var site = await netlifyClient
