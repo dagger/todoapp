@@ -4,7 +4,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"os"
 
@@ -56,19 +55,15 @@ func Deploy(ctx context.Context) {
 		}
 
 		// Deploy to netlify
-		var deployInfo netlify.DeployNetlifyDeploySiteURLs
+		var url string
 		if resp, err := netlify.Deploy(ctx, sourceAfterBuild, "build", siteName, token); err != nil {
 			return err
 		} else {
-			deployInfo = resp.Netlify.Deploy
+			url = resp.Netlify.Deploy.Url
 		}
 
 		// Print deployment info to the user
-		output, err := json.Marshal(deployInfo)
-		if err != nil {
-			return err
-		}
-		fmt.Println(string(output))
+		fmt.Println("URL:", url)
 
 		return nil
 	}); err != nil {
