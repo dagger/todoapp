@@ -1,8 +1,8 @@
 name: todoapp
 workflows:
-  - path: scripts/deploy-1
+  - path: scripts/kick-the-tires
     sdk: ts
-  - path: scripts/deploy-2
+  - path: scripts/deploy
     sdk: ts
   - path: api/magefiles
     sdk: go
