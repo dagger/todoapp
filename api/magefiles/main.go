@@ -21,7 +21,7 @@ func Deploy(ctx context.Context) {
 			user, _ := os.LookupEnv("USER")
 			siteName = fmt.Sprintf("%s-dagger-todoapp", user)
 		}
-		fmt.Printf("Using Netlify site name \"%s\"", siteName)
+		fmt.Printf("Using Netlify site name %q\n", siteName)
 
 		// User must configure netlify API token with $NETLIFY_AUTH_TOKEN
 		tokenCleartext, ok := os.LookupEnv("NETLIFY_AUTH_TOKEN")
