@@ -1,5 +1,5 @@
 name: todoapp
-workflows:
+scripts:
   - path: scripts/kick-the-tires
     sdk: ts
   - path: scripts/deploy
