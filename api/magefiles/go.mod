@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/Khan/genqlient v0.5.0
-	github.com/dagger/cloak v0.0.0-20220830001148-4f595cceb706
+	github.com/dagger/cloak v0.0.0-20220901034926-2894044664e7
 )
 
 require (
@@ -64,7 +64,7 @@ require (
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220722155302-e5dcc9cfc0b9 // indirect
 	google.golang.org/genproto v0.0.0-20220810155839-1856144b1d9c // indirect
-	google.golang.org/grpc v1.48.0 // indirect
+	google.golang.org/grpc v1.49.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

@@ -53,12 +53,19 @@ engine.run(async (client) => {
                   args: ["yarn", "install"]
                   mounts: [{ fs: $source, path: "/src" }]
                   workdir: "/src"
-                  env: { name: "YARN_CACHE_FOLDER", value: "/cache" }
+                  env: [
+                    { name: "YARN_CACHE_FOLDER", value: "/cache" }
+                    {
+                      name: "GIT_SSH_COMMAND"
+                      value: "ssh -o StrictHostKeyChecking=no"
+                    }
+                  ]
                   cacheMounts: {
                     name: "yarn"
                     path: "/cache"
                     sharingMode: "locked"
                   }
+                  sshAuthSock: "/ssh-agent"
                 }
               ) {
                 # Retrieve modified source
@@ -89,12 +96,19 @@ engine.run(async (client) => {
                   args: ["yarn", "run", "react-scripts", "build"]
                   mounts: [{ fs: $sourceAfterInstall, path: "/src" }]
                   workdir: "/src"
-                  env: { name: "YARN_CACHE_FOLDER", value: "/cache" }
+                  env: [
+                    { name: "YARN_CACHE_FOLDER", value: "/cache" }
+                    {
+                      name: "GIT_SSH_COMMAND"
+                      value: "ssh -o StrictHostKeyChecking=no"
+                    }
+                  ]
                   cacheMounts: {
                     name: "yarn"
                     path: "/cache"
                     sharingMode: "locked"
                   }
+                  sshAuthSock: "/ssh-agent"
                 }
               ) {
                 # Retrieve modified source
