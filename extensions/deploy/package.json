@@ -7,7 +7,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@dagger.io/dagger": "git+ssh://git@github.com:dagger/cloak.git#demov2-nodejs-sdk",
+    "@dagger.io/dagger": "git+ssh://git@github.com:dagger/cloak.git#main",
     "typescript": "^4.7.4"
   }
 }
