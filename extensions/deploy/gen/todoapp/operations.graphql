@@ -1,5 +1,0 @@
-query Deploy($source: FSID!, $siteName: String!, $token: SecretID!) {
-  todoapp {
-    deploy(source: $source, siteName: $siteName, token: $token)
-  }
-}
