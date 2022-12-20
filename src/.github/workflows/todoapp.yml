@@ -1,5 +1,11 @@
 name: todoapp
 
+on:
+  push:
+    # Trigger this workflow only on commits pushed to the main branch
+    branches:
+      - test/dagger
+
 # Dagger plan gets configured via client environment variables
 env:
   # This needs to be unique across all of netlify.app
